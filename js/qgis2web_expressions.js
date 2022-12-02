@@ -757,20 +757,46 @@ function fnc_project_color(values, context) {
 
 
 
-function exp_Shippingdensitychange20062019_3rule0_eval_expression(context) {
-    // DN = 1
+function exp_Decreaseinshippingdensity20062019_2rule0_eval_expression(context) {
+    // DN = 5
 
     var feature = context.feature;
     
     if (feature.properties) {
-        return (feature.properties['DN']  == 1);
+        return (feature.properties['DN']  == 5);
     } else {
-        return (feature['DN']  == 1);
+        return (feature['DN']  == 5);
     }
 }
 
 
-function exp_Shippingdensitychange20062019_3rule1_eval_expression(context) {
+function exp_Decreaseinshippingdensity20062019_2rule1_eval_expression(context) {
+    // DN = 6
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['DN']  == 6);
+    } else {
+        return (feature['DN']  == 6);
+    }
+}
+
+
+function exp_Decreaseinshippingdensity20062019_2rule2_eval_expression(context) {
+    // DN = 7
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['DN']  == 7);
+    } else {
+        return (feature['DN']  == 7);
+    }
+}
+
+
+function exp_Increaseinshippingdensity20062019_3rule0_eval_expression(context) {
     // DN = 3
 
     var feature = context.feature;
@@ -779,5 +805,31 @@ function exp_Shippingdensitychange20062019_3rule1_eval_expression(context) {
         return (feature.properties['DN']  == 3);
     } else {
         return (feature['DN']  == 3);
+    }
+}
+
+
+function exp_Increaseinshippingdensity20062019_3rule1_eval_expression(context) {
+    // DN = 2
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['DN']  == 2);
+    } else {
+        return (feature['DN']  == 2);
+    }
+}
+
+
+function exp_Increaseinshippingdensity20062019_3rule2_eval_expression(context) {
+    // DN = 1
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['DN']  == 1);
+    } else {
+        return (feature['DN']  == 1);
     }
 }

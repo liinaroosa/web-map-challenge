@@ -16,13 +16,14 @@
             margin: 0;
         }
         </style>
-        <title>Shipping density, changes and Natura 2000 areas</title>
+        <title>Maritime traffic pressure</title>
     </head>
     <body>
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
+        <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -30,24 +31,26 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="data/Natura2000area_2.js"></script>
-        <script src="data/Shippingdensitychange20062019_3.js"></script>
-        <script src="data/Waterways_4.js"></script>
-        <script src="data/5000vessels2019_5.js"></script>
+        <script src="data/Decreaseinshippingdensity20062019_2.js"></script>
+        <script src="data/Increaseinshippingdensity20062019_3.js"></script>
+        <script src="data/Natura2000areaSAC_4.js"></script>
+        <script src="data/Stateownednaturereserve_5.js"></script>
+        <script src="data/5000vessels2019_6.js"></script>
+        <script src="data/Waterway_7.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:5
-        }).fitBounds([[59.865194904145305,20.825616525633013],[60.51705052912422,22.86220504454386]]);
+        }).fitBounds([[55.99095158604738,14.328641771907003],[62.59245013074627,34.25058568764999]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        map.createPane('pane_ESRIBasemap_0');
-        map.getPane('pane_ESRIBasemap_0').style.zIndex = 400;
-        var layer_ESRIBasemap_0 = L.tileLayer('http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-            pane: 'pane_ESRIBasemap_0',
+        map.createPane('pane_ESRIGraylight_0');
+        map.getPane('pane_ESRIGraylight_0').style.zIndex = 400;
+        var layer_ESRIGraylight_0 = L.tileLayer('http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_ESRIGraylight_0',
             opacity: 1.0,
             attribution: '',
             minZoom: 5,
@@ -55,12 +58,12 @@
             minNativeZoom: 0,
             maxNativeZoom: 20
         });
-        layer_ESRIBasemap_0;
-        map.addLayer(layer_ESRIBasemap_0);
-        map.createPane('pane_ESRIPlacesandnames_1');
-        map.getPane('pane_ESRIPlacesandnames_1').style.zIndex = 401;
-        var layer_ESRIPlacesandnames_1 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-            pane: 'pane_ESRIPlacesandnames_1',
+        layer_ESRIGraylight_0;
+        map.addLayer(layer_ESRIGraylight_0);
+        map.createPane('pane_ESRIBoundariesandnames_1');
+        map.getPane('pane_ESRIBoundariesandnames_1').style.zIndex = 401;
+        var layer_ESRIBoundariesandnames_1 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_ESRIBoundariesandnames_1',
             opacity: 1.0,
             attribution: '',
             minZoom: 5,
@@ -68,107 +71,9 @@
             minNativeZoom: 0,
             maxNativeZoom: 20
         });
-        layer_ESRIPlacesandnames_1;
-        map.addLayer(layer_ESRIPlacesandnames_1);
-        function pop_Natura2000area_2(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['naturaTunn'] !== null ? autolinker.link(feature.properties['naturaTunn'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['suojeluPer'] !== null ? autolinker.link(feature.properties['suojeluPer'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['versioTunn'] !== null ? autolinker.link(feature.properties['versioTunn'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['nimiSuomi'] !== null ? autolinker.link(feature.properties['nimiSuomi'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['nimiRuotsi'] !== null ? autolinker.link(feature.properties['nimiRuotsi'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['alueTyyppi'] !== null ? autolinker.link(feature.properties['alueTyyppi'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['tietolomak'] !== null ? autolinker.link(feature.properties['tietolomak'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['paatosPvm'] !== null ? autolinker.link(feature.properties['paatosPvm'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['paatosPAla'] !== null ? autolinker.link(feature.properties['paatosPAla'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['paatosPitu'] !== null ? autolinker.link(feature.properties['paatosPitu'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['meriPAlaPr'] !== null ? autolinker.link(feature.properties['meriPAlaPr'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['paatosAsia'] !== null ? autolinker.link(feature.properties['paatosAsia'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ensisijLaj'] !== null ? autolinker.link(feature.properties['ensisijLaj'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['alueJaViiv'] !== null ? autolinker.link(feature.properties['alueJaViiv'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['VPDSuoj'] !== null ? autolinker.link(feature.properties['VPDSuoj'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['lisatieto'] !== null ? autolinker.link(feature.properties['lisatieto'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['luontiPvm'] !== null ? autolinker.link(feature.properties['luontiPvm'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['muutosPvm'] !== null ? autolinker.link(feature.properties['muutosPvm'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['paattymisP'] !== null ? autolinker.link(feature.properties['paattymisP'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_STAr'] !== null ? autolinker.link(feature.properties['SHAPE_STAr'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SHAPE_STLe'] !== null ? autolinker.link(feature.properties['SHAPE_STLe'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
-        }
-
-        function style_Natura2000area_2_0() {
-            return {
-                pane: 'pane_Natura2000area_2',
-                opacity: 0.5,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(36,156,98,1.0)',
-                interactive: false,
-            }
-        }
-        map.createPane('pane_Natura2000area_2');
-        map.getPane('pane_Natura2000area_2').style.zIndex = 402;
-        map.getPane('pane_Natura2000area_2').style['mix-blend-mode'] = 'normal';
-        var layer_Natura2000area_2 = new L.geoJson(json_Natura2000area_2, {
-            attribution: '',
-            interactive: false,
-            dataVar: 'json_Natura2000area_2',
-            layerName: 'layer_Natura2000area_2',
-            pane: 'pane_Natura2000area_2',
-            onEachFeature: pop_Natura2000area_2,
-            style: style_Natura2000area_2_0,
-        });
-        bounds_group.addLayer(layer_Natura2000area_2);
-        map.addLayer(layer_Natura2000area_2);
-        function pop_Shippingdensitychange20062019_3(feature, layer) {
+        layer_ESRIBoundariesandnames_1;
+        map.addLayer(layer_ESRIBoundariesandnames_1);
+        function pop_Decreaseinshippingdensity20062019_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
@@ -179,39 +84,54 @@
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
-        function style_Shippingdensitychange20062019_3_0(feature) {
+        function style_Decreaseinshippingdensity20062019_2_0(feature) {
             var context = {
                 feature: feature,
                 variables: {}
             };
             // Start of if blocks and style check logic
-            if (exp_Shippingdensitychange20062019_3rule0_eval_expression(context)) {
+            if (exp_Decreaseinshippingdensity20062019_2rule0_eval_expression(context)) {
                   return {
-                pane: 'pane_Shippingdensitychange20062019_3',
+                pane: 'pane_Decreaseinshippingdensity20062019_2',
                 opacity: 1,
-                color: 'rgba(227,26,28,1.0)',
+                color: 'rgba(129,181,248,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 4.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(227,26,28,1.0)',
+                fillColor: 'rgba(129,181,248,1.0)',
                 interactive: false,
             };
                 }
-                else if (exp_Shippingdensitychange20062019_3rule1_eval_expression(context)) {
+                else if (exp_Decreaseinshippingdensity20062019_2rule1_eval_expression(context)) {
                   return {
-                pane: 'pane_Shippingdensitychange20062019_3',
+                pane: 'pane_Decreaseinshippingdensity20062019_2',
                 opacity: 1,
-                color: 'rgba(49,104,232,1.0)',
+                color: 'rgba(71,135,219,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 4.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(49,104,232,1.0)',
+                fillColor: 'rgba(71,135,219,1.0)',
+                interactive: false,
+            };
+                }
+                else if (exp_Decreaseinshippingdensity20062019_2rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_Decreaseinshippingdensity20062019_2',
+                opacity: 1,
+                color: 'rgba(5,113,176,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(5,113,176,1.0)',
                 interactive: false,
             };
                 }
@@ -219,21 +139,203 @@
                 return {fill: false, stroke: false};
             }
         }
-        map.createPane('pane_Shippingdensitychange20062019_3');
-        map.getPane('pane_Shippingdensitychange20062019_3').style.zIndex = 403;
-        map.getPane('pane_Shippingdensitychange20062019_3').style['mix-blend-mode'] = 'normal';
-        var layer_Shippingdensitychange20062019_3 = new L.geoJson(json_Shippingdensitychange20062019_3, {
+        map.createPane('pane_Decreaseinshippingdensity20062019_2');
+        map.getPane('pane_Decreaseinshippingdensity20062019_2').style.zIndex = 402;
+        map.getPane('pane_Decreaseinshippingdensity20062019_2').style['mix-blend-mode'] = 'normal';
+        var layer_Decreaseinshippingdensity20062019_2 = new L.geoJson(json_Decreaseinshippingdensity20062019_2, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_Shippingdensitychange20062019_3',
-            layerName: 'layer_Shippingdensitychange20062019_3',
-            pane: 'pane_Shippingdensitychange20062019_3',
-            onEachFeature: pop_Shippingdensitychange20062019_3,
-            style: style_Shippingdensitychange20062019_3_0,
+            dataVar: 'json_Decreaseinshippingdensity20062019_2',
+            layerName: 'layer_Decreaseinshippingdensity20062019_2',
+            pane: 'pane_Decreaseinshippingdensity20062019_2',
+            onEachFeature: pop_Decreaseinshippingdensity20062019_2,
+            style: style_Decreaseinshippingdensity20062019_2_0,
         });
-        bounds_group.addLayer(layer_Shippingdensitychange20062019_3);
-        map.addLayer(layer_Shippingdensitychange20062019_3);
-        function pop_Waterways_4(feature, layer) {
+        bounds_group.addLayer(layer_Decreaseinshippingdensity20062019_2);
+        map.addLayer(layer_Decreaseinshippingdensity20062019_2);
+        function pop_Increaseinshippingdensity20062019_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DN'] !== null ? autolinker.link(feature.properties['DN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_Increaseinshippingdensity20062019_3_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Increaseinshippingdensity20062019_3rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Increaseinshippingdensity20062019_3',
+                opacity: 1,
+                color: 'rgba(237,178,187,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(237,178,187,1.0)',
+                interactive: false,
+            };
+                }
+                else if (exp_Increaseinshippingdensity20062019_3rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Increaseinshippingdensity20062019_3',
+                opacity: 1,
+                color: 'rgba(237,88,98,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(237,88,98,1.0)',
+                interactive: false,
+            };
+                }
+                else if (exp_Increaseinshippingdensity20062019_3rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_Increaseinshippingdensity20062019_3',
+                opacity: 1,
+                color: 'rgba(202,0,32,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,0,32,1.0)',
+                interactive: false,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Increaseinshippingdensity20062019_3');
+        map.getPane('pane_Increaseinshippingdensity20062019_3').style.zIndex = 403;
+        map.getPane('pane_Increaseinshippingdensity20062019_3').style['mix-blend-mode'] = 'normal';
+        var layer_Increaseinshippingdensity20062019_3 = new L.geoJson(json_Increaseinshippingdensity20062019_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Increaseinshippingdensity20062019_3',
+            layerName: 'layer_Increaseinshippingdensity20062019_3',
+            pane: 'pane_Increaseinshippingdensity20062019_3',
+            onEachFeature: pop_Increaseinshippingdensity20062019_3,
+            style: style_Increaseinshippingdensity20062019_3_0,
+        });
+        bounds_group.addLayer(layer_Increaseinshippingdensity20062019_3);
+        map.addLayer(layer_Increaseinshippingdensity20062019_3);
+        function pop_Natura2000areaSAC_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">nimiSuomi</th>\
+                        <td>' + (feature.properties['nimiSuomi'] !== null ? autolinker.link(feature.properties['nimiSuomi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">nimiRuotsi</th>\
+                        <td>' + (feature.properties['nimiRuotsi'] !== null ? autolinker.link(feature.properties['nimiRuotsi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Natura2000areaSAC_4_0() {
+            return {
+                pane: 'pane_Natura2000areaSAC_4',
+                opacity: 0.75,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(36,156,98,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Natura2000areaSAC_4');
+        map.getPane('pane_Natura2000areaSAC_4').style.zIndex = 404;
+        map.getPane('pane_Natura2000areaSAC_4').style['mix-blend-mode'] = 'normal';
+        var layer_Natura2000areaSAC_4 = new L.geoJson(json_Natura2000areaSAC_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Natura2000areaSAC_4',
+            layerName: 'layer_Natura2000areaSAC_4',
+            pane: 'pane_Natura2000areaSAC_4',
+            onEachFeature: pop_Natura2000areaSAC_4,
+            style: style_Natura2000areaSAC_4_0,
+        });
+        bounds_group.addLayer(layer_Natura2000areaSAC_4);
+        map.addLayer(layer_Natura2000areaSAC_4);
+        function pop_Stateownednaturereserve_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nimi</th>\
+                        <td>' + (feature.properties['Nimi'] !== null ? autolinker.link(feature.properties['Nimi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TyyppiNimi</th>\
+                        <td>' + (feature.properties['TyyppiNimi'] !== null ? autolinker.link(feature.properties['TyyppiNimi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        var pattern_Stateownednaturereserve_5_0 = new L.StripePattern({
+            weight: 1,
+            spaceWeight: 2.0,
+            color: '#4daf4a',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_Stateownednaturereserve_5_0.addTo(map);
+        function style_Stateownednaturereserve_5_0() {
+            return {
+                pane: 'pane_Stateownednaturereserve_5',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_Stateownednaturereserve_5_0,
+                interactive: true,
+            }
+        }
+        function style_Stateownednaturereserve_5_1() {
+            return {
+                pane: 'pane_Stateownednaturereserve_5',
+                opacity: 1,
+                color: 'rgba(77,175,74,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Stateownednaturereserve_5');
+        map.getPane('pane_Stateownednaturereserve_5').style.zIndex = 405;
+        map.getPane('pane_Stateownednaturereserve_5').style['mix-blend-mode'] = 'normal';
+        var layer_Stateownednaturereserve_5 = new L.geoJson.multiStyle(json_Stateownednaturereserve_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Stateownednaturereserve_5',
+            layerName: 'layer_Stateownednaturereserve_5',
+            pane: 'pane_Stateownednaturereserve_5',
+            onEachFeature: pop_Stateownednaturereserve_5,
+            styles: [style_Stateownednaturereserve_5_0,style_Stateownednaturereserve_5_1,]
+        });
+        bounds_group.addLayer(layer_Stateownednaturereserve_5);
+        map.addLayer(layer_Stateownednaturereserve_5);
+        function pop_5000vessels2019_6(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -287,11 +389,56 @@
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_Waterways_4_0(feature) {
-            switch(String(feature.properties['class'])) {
+        function style_5000vessels2019_6_0() {
+            return {
+                pane: 'pane_5000vessels2019_6',
+                opacity: 1,
+                color: 'rgba(232,232,134,1.0)',
+                dashArray: '',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 11.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_5000vessels2019_6');
+        map.getPane('pane_5000vessels2019_6').style.zIndex = 406;
+        map.getPane('pane_5000vessels2019_6').style['mix-blend-mode'] = 'normal';
+        var layer_5000vessels2019_6 = new L.geoJson(json_5000vessels2019_6, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_5000vessels2019_6',
+            layerName: 'layer_5000vessels2019_6',
+            pane: 'pane_5000vessels2019_6',
+            onEachFeature: pop_5000vessels2019_6,
+            style: style_5000vessels2019_6_0,
+        });
+        bounds_group.addLayer(layer_5000vessels2019_6);
+        map.addLayer(layer_5000vessels2019_6);
+        function pop_Waterway_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">vay_nimisu</th>\
+                        <td>' + (feature.properties['vay_nimisu'] !== null ? autolinker.link(feature.properties['vay_nimisu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">syvyydet</th>\
+                        <td>' + (feature.properties['syvyydet'] !== null ? autolinker.link(feature.properties['syvyydet'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">vayla_lk</th>\
+                        <td>' + (feature.properties['vayla_lk'] !== null ? autolinker.link(feature.properties['vayla_lk'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Waterway_7_0(feature) {
+            switch(String(feature.properties['q2wHide_class'])) {
                 case '1':
                     return {
-                pane: 'pane_Waterways_4',
+                pane: 'pane_Waterway_7',
                 opacity: 1,
                 color: 'rgba(255,127,0,1.0)',
                 dashArray: '',
@@ -299,12 +446,12 @@
                 lineJoin: 'bevel',
                 weight: 3.0,
                 fillOpacity: 0,
-                interactive: false,
+                interactive: true,
             }
                     break;
                 case '2':
                     return {
-                pane: 'pane_Waterways_4',
+                pane: 'pane_Waterway_7',
                 opacity: 1,
                 color: 'rgba(32,80,147,1.0)',
                 dashArray: '',
@@ -312,152 +459,53 @@
                 lineJoin: 'bevel',
                 weight: 2.0,
                 fillOpacity: 0,
-                interactive: false,
+                interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane_Waterways_4');
-        map.getPane('pane_Waterways_4').style.zIndex = 404;
-        map.getPane('pane_Waterways_4').style['mix-blend-mode'] = 'normal';
-        var layer_Waterways_4 = new L.geoJson(json_Waterways_4, {
+        map.createPane('pane_Waterway_7');
+        map.getPane('pane_Waterway_7').style.zIndex = 407;
+        map.getPane('pane_Waterway_7').style['mix-blend-mode'] = 'normal';
+        var layer_Waterway_7 = new L.geoJson(json_Waterway_7, {
             attribution: '',
-            interactive: false,
-            dataVar: 'json_Waterways_4',
-            layerName: 'layer_Waterways_4',
-            pane: 'pane_Waterways_4',
-            onEachFeature: pop_Waterways_4,
-            style: style_Waterways_4_0,
+            interactive: true,
+            dataVar: 'json_Waterway_7',
+            layerName: 'layer_Waterway_7',
+            pane: 'pane_Waterway_7',
+            onEachFeature: pop_Waterway_7,
+            style: style_Waterway_7_0,
         });
-        bounds_group.addLayer(layer_Waterways_4);
-        map.addLayer(layer_Waterways_4);
-        function pop_5000vessels2019_5(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['jnro'] !== null ? autolinker.link(feature.properties['jnro'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['vay_nimisu'] !== null ? autolinker.link(feature.properties['vay_nimisu'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['vay_nimiru'] !== null ? autolinker.link(feature.properties['vay_nimiru'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['tila'] !== null ? autolinker.link(feature.properties['tila'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['vaylalaji'] !== null ? autolinker.link(feature.properties['vaylalaji'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['valaistus'] !== null ? autolinker.link(feature.properties['valaistus'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['merial_nr'] !== null ? autolinker.link(feature.properties['merial_nr'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['seloste_al'] !== null ? autolinker.link(feature.properties['seloste_al'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['seloste_pa'] !== null ? autolinker.link(feature.properties['seloste_pa'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['syvyydet'] !== null ? autolinker.link(feature.properties['syvyydet'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['diaarinro'] !== null ? autolinker.link(feature.properties['diaarinro'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['vahv_pvm'] !== null ? autolinker.link(feature.properties['vahv_pvm'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['vayla_lk'] !== null ? autolinker.link(feature.properties['vayla_lk'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['irrotus_pv'] !== null ? autolinker.link(feature.properties['irrotus_pv'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['class'] !== null ? autolinker.link(feature.properties['class'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
-        }
-
-        function style_5000vessels2019_5_0(feature) {
-            switch(String(feature.properties['class'])) {
-                case '1':
-                    return {
-                pane: 'pane_5000vessels2019_5',
-                opacity: 0.75,
-                color: 'rgba(247,128,30,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 10.0,
-                fillOpacity: 0,
-                interactive: false,
-            }
-                    break;
-                case '2':
-                    return {
-                pane: 'pane_5000vessels2019_5',
-                opacity: 1,
-                color: 'rgba(32,80,147,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 10.0,
-                fillOpacity: 0,
-                interactive: false,
-            }
-                    break;
-            }
-        }
-        map.createPane('pane_5000vessels2019_5');
-        map.getPane('pane_5000vessels2019_5').style.zIndex = 405;
-        map.getPane('pane_5000vessels2019_5').style['mix-blend-mode'] = 'normal';
-        var layer_5000vessels2019_5 = new L.geoJson(json_5000vessels2019_5, {
-            attribution: '',
-            interactive: false,
-            dataVar: 'json_5000vessels2019_5',
-            layerName: 'layer_5000vessels2019_5',
-            pane: 'pane_5000vessels2019_5',
-            onEachFeature: pop_5000vessels2019_5,
-            style: style_5000vessels2019_5_0,
-        });
-        bounds_group.addLayer(layer_5000vessels2019_5);
-        map.addLayer(layer_5000vessels2019_5);
+        bounds_group.addLayer(layer_Waterway_7);
+        map.addLayer(layer_Waterway_7);
         map.on("zoomend", function(e) {
             if (map.getZoom() <= 19 && map.getZoom() >= 10) {
-                map.addLayer(layer_ESRIPlacesandnames_1);
+                map.addLayer(layer_ESRIBoundariesandnames_1);
             } else if (map.getZoom() > 19 || map.getZoom() < 10) {
-                map.removeLayer(layer_ESRIPlacesandnames_1);
+                map.removeLayer(layer_ESRIBoundariesandnames_1);
             }
         });
             if (map.getZoom() <= 19 && map.getZoom() >= 10) {
-                map.addLayer(layer_ESRIPlacesandnames_1);
+                map.addLayer(layer_ESRIBoundariesandnames_1);
             } else if (map.getZoom() > 19 || map.getZoom() < 10) {
-                map.removeLayer(layer_ESRIPlacesandnames_1);
+                map.removeLayer(layer_ESRIBoundariesandnames_1);
             }
-           
-
-
-		   var title = new L.Control({'position':'topright'});
+            
+			
+			var title = new L.Control();
             title.onAdd = function (map) {
                 this._div = L.DomUtil.create('div', 'info');
                 this.update();
                 return this._div;
             };
             title.update = function () {
-                this._div.innerHTML = '<h2>Shipping density, changes and Natura 2000 areas</h2>';
+                this._div.innerHTML = '<h2>Maritime traffic pressure</h2>';
             };
             title.addTo(map);
-			
+            var abstract = new L.Control({'position':'bottomleft'});
            
-		   var abstract = new L.Control({'position':'bottomleft'});
-            abstract.onAdd = function (map) {
+
+		   abstract.onAdd = function (map) {
                 this._div = L.DomUtil.create('div',
                 'leaflet-control abstract');
                 this._div.id = 'abstract'
@@ -469,7 +517,7 @@
                 abstract.hide = function () {
                     this._div.classList.remove("abstractUncollapsed");
                     this._div.classList.add("abstract");
-                    this._div.innerHTML = 'i' 
+                    this._div.innerHTML = 'i'
                 }
                 abstract.show = function () {
                     this._div.classList.remove("abstract");
@@ -478,7 +526,7 @@
             };
             abstract.addTo(map);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'> 5000 vessels 2019<br /><table><tr><td style="text-align: center;"><img src="legend/5000vessels2019_5_Merchantshippingroutes0.png" /></td><td>Merchant shipping routes</td></tr><tr><td style="text-align: center;"><img src="legend/5000vessels2019_5_Shallowwaterroutes1.png" /></td><td>Shallow water routes</td></tr></table>': layer_5000vessels2019_5,'Waterways<br /><table><tr><td style="text-align: center;"><img src="legend/Waterways_4_Merchantshippingroutes0.png" /></td><td>Merchant shipping routes</td></tr><tr><td style="text-align: center;"><img src="legend/Waterways_4_Shallowwaterroutes1.png" /></td><td>Shallow water routes</td></tr></table>': layer_Waterways_4,'Shipping density change 2006-2019<br /><table><tr><td style="text-align: center;"><img src="legend/Shippingdensitychange20062019_3_500vesselsincreased0.png" /></td><td>> 500 vessels (increased)</td></tr><tr><td style="text-align: center;"><img src="legend/Shippingdensitychange20062019_3_500vesselsdecreased1.png" /></td><td>> 500 vessels (decreased)</td></tr></table>': layer_Shippingdensitychange20062019_3,'<img src="legend/Natura2000area_2.png" /> Natura 2000 area': layer_Natura2000area_2,"ESRI Places and names": layer_ESRIPlacesandnames_1,"ESRI Basemap": layer_ESRIBasemap_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'Waterway<br /><table><tr><td style="text-align: center;"><img src="legend/Waterway_7_Merchantshippingroute0.png" /></td><td>Merchant shipping route</td></tr><tr><td style="text-align: center;"><img src="legend/Waterway_7_Shallowwaterroute1.png" /></td><td>Shallow water route</td></tr></table>': layer_Waterway_7,'<img src="legend/5000vessels2019_6.png" /> > 5000 vessels 2019': layer_5000vessels2019_6,'<img src="legend/Stateownednaturereserve_5.png" /> State-owned nature reserve': layer_Stateownednaturereserve_5,'<img src="legend/Natura2000areaSAC_4.png" /> Natura 2000 area SAC': layer_Natura2000areaSAC_4,'Increase in shipping density 2006-2019<br /><table><tr><td style="text-align: center;"><img src="legend/Increaseinshippingdensity20062019_3_1500vessels0.png" /></td><td>1-500 vessels</td></tr><tr><td style="text-align: center;"><img src="legend/Increaseinshippingdensity20062019_3_50115001.png" /></td><td>501-1500</td></tr><tr><td style="text-align: center;"><img src="legend/Increaseinshippingdensity20062019_3_15002.png" /></td><td>>1500</td></tr></table>': layer_Increaseinshippingdensity20062019_3,'Decrease in shipping density 2006-2019<br /><table><tr><td style="text-align: center;"><img src="legend/Decreaseinshippingdensity20062019_2_1500vessels0.png" /></td><td>1-500 vessels</td></tr><tr><td style="text-align: center;"><img src="legend/Decreaseinshippingdensity20062019_2_50115001.png" /></td><td>501-1500</td></tr><tr><td style="text-align: center;"><img src="legend/Decreaseinshippingdensity20062019_2_15002.png" /></td><td>>1500</td></tr></table>': layer_Decreaseinshippingdensity20062019_2,"ESRI Boundaries and names": layer_ESRIBoundariesandnames_1,"ESRI Gray (light)": layer_ESRIGraylight_0,},{collapsed:false}).addTo(map);
         setBounds();
         </script>
     </body>
